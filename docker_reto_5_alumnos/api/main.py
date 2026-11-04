@@ -21,7 +21,7 @@ def root():
 def listar_prestamos():
     with engine.connect() as conexion:
         resultado = conexion.execute(
-            text("SELECT * FROM clientes_credito")
+            text("SELECT * FROM clientes_credito LIMIT 1000")
         )
         prestamos = [dict(fila) for fila in resultado.mappings()]
 
@@ -43,7 +43,49 @@ def buscar_prestamo(id):
 
     return {"prestamo": dict(prestamo)}
 
+@app.get("/prestamos/ingresos")
+def ordenar_ingresos():
 
+    with engine.connect() as conexion:
+        resultado = conexion.execute(text("""
+            SELECT *
+            FROM clientes_credito
+            ORDER BY ingresos DESC
+            LIMIT 1000
+        """))
+
+        prestamos = [dict(fila) for fila in resultado.mappings()]
+
+    return {"prestamos": prestamos}, 200
+
+@app.get("/prestamos/impago")
+def prestamos_impago():
+    with engine.connect() as conexion:
+        resultado = conexion.execute(text("""
+            SELECT *
+            FROM clientes_credito
+            WHERE impago = 1
+            LIMIT 1000
+        """))
+
+        prestamos = [dict(fila) for fila in resultado.mappings()]
+
+    return {"prestamos": prestamos}, 200
+
+
+@app.get("/prestamos/pago")
+def prestamos_pago():
+    with engine.connect() as conexion:
+        resultado = conexion.execute(text("""
+            SELECT *
+            FROM clientes_credito
+            WHERE impago = 0
+            LIMIT 1000
+        """))
+
+        prestamos = [dict(fila) for fila in resultado.mappings()]
+
+    return {"prestamos": prestamos}, 200
 
 @app.get("/estadisticas")
 def obtener_estadisticas():
@@ -62,19 +104,21 @@ def obtener_estadisticas():
     return {"estadisticas": dict(estadisticas)}, 200
 
 
-@app.get("/prestamos/ingresos")
-def ordenar_ingresos():
+#para la consulta con una api externa he elegido una que te dice la ciudad sabiendo el codigo postal
 
-    with engine.connect() as conexion:
-        resultado = conexion.execute(text("""
-            SELECT *
-            FROM clientes_credito
-            ORDER BY ingresos DESC
-        """))
+@app.get("/codigo_postal/<codigo>")
+def codigo_postal(codigo):
 
-        prestamos = [dict(fila) for fila in resultado.mappings()]
+    respuesta = requests.get(
+        f"https://api.zippopotam.us/es/{codigo}"
+    )
 
-    return {"prestamos": prestamos}, 200
+    if respuesta.status_code != 200:
+        return {"error": "Código postal no encontrado"}, 404
+
+    return respuesta.json(), 200
+
+
 
 
 
