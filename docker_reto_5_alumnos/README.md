@@ -98,7 +98,7 @@ Se puede utilizar el navegador para probar las distintas rutas de la API.
 Ejemplos:
 
 - `http://127.0.0.1:8000/`  
-- `http://127.0.0.1:8000/prestamos` esta va a tardar mucho en cargar porque tiene muchos prestamos
+- `http://127.0.0.1:8000/prestamos` 
 - `http://127.0.0.1:8000/prestamos/1`
 - `http://127.0.0.1:8000/prestamos/ingresos`
 - `http://127.0.0.1:8000/prestamos/vivienda`

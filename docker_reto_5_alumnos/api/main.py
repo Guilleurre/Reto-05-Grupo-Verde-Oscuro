@@ -24,7 +24,7 @@ def listar_prestamos():
             text("""
             SELECT *
             FROM clientes_credito
-            ORDER BY row_id
+            LIMIT 1000
         """)
         )
         prestamos = [dict(fila) for fila in resultado.mappings()]
