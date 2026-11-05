@@ -40,6 +40,9 @@ Notebook dedicado al desarrollo del modelo de prima.
 
 Antes de ejecutarlo, es necesario comprobar qué datos carga y si utiliza algún resultado generado por el modelo de impago.
 
+### 3.3. Docker Reto 5 alumnos
+En docker Reto 5 alumnos se encuentra lo utilizado para realizar una API con los datos, dentro de ella se encuentr otro readme que profundiza mas su contenido
+
 ## 4. Archivos de datos
 
 Los notebooks necesitan acceder a los archivos indicados en las instrucciones de lectura del código.
