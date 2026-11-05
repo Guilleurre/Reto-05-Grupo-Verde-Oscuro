@@ -21,11 +21,25 @@ def root():
 def listar_prestamos():
     with engine.connect() as conexion:
         resultado = conexion.execute(
-            text("SELECT * FROM clientes_credito LIMIT 1000")
+            text("SELECT * FROM clientes_credito")
         )
         prestamos = [dict(fila) for fila in resultado.mappings()]
 
     return {"prestamos": prestamos}
+
+
+@app.get("/prestamos/vivienda")
+def prestamos_vivienda():
+    with engine.connect() as conexion:
+        resultado = conexion.execute(text("""
+            SELECT *
+            FROM clientes_credito
+            WHERE proposito = 'Vivienda'
+        """))
+
+        prestamos = [dict(fila) for fila in resultado.mappings()]
+
+    return {"prestamos": prestamos}, 200
 
 
 
