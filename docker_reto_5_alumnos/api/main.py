@@ -21,7 +21,11 @@ def root():
 def listar_prestamos():
     with engine.connect() as conexion:
         resultado = conexion.execute(
-            text("SELECT * FROM clientes_credito")
+            text("""
+            SELECT *
+            FROM clientes_credito
+            LIMIT 1000
+        """)
         )
         prestamos = [dict(fila) for fila in resultado.mappings()]
 
@@ -35,6 +39,7 @@ def prestamos_vivienda():
             SELECT *
             FROM clientes_credito
             WHERE proposito = 'Vivienda'
+            LIMIT 1000
         """))
 
         prestamos = [dict(fila) for fila in resultado.mappings()]
