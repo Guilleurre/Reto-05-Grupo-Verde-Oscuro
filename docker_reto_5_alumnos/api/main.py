@@ -24,7 +24,7 @@ def listar_prestamos():
             text("""
             SELECT *
             FROM clientes_credito
-            LIMIT 1000
+            LIMIT 100000
         """)
         )
         prestamos = [dict(fila) for fila in resultado.mappings()]
